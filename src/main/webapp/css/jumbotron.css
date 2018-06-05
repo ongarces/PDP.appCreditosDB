@@ -1,0 +1,9 @@
+/* 
+    Created on : 9/05/2018, 06:24:53 PM
+    Author     : cgaop
+*/
+
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+}

@@ -1,0 +1,16 @@
+package co.com.poli.appcreditos.dao;
+
+import co.com.poli.appcreditos.model.Credito;
+import co.com.poli.appcreditos.model.Tblcreditos;
+import java.util.List;
+
+/**
+ *
+ * @author cgaop
+ */
+public interface ICreditoDao {
+    
+    List<Tblcreditos> obtenerListaCreditos();
+    String crearCredito(Tblcreditos credito);
+    Credito obtenerCredito(String numero);   
+}
