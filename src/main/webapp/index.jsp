@@ -16,7 +16,7 @@
         <meta name="author" content="">
         <link rel="icon" href="../../../../favicon.ico">
 
-        <title>Template for INICIO</title>
+        <title>INICIO</title>
 
         <!-- Bootstrap core CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
@@ -49,6 +49,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=listar">Listar Creditos</a>
                     </li> 
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=usado">Credito mas usado</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=acumulado">Mayor acumulado</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=prestador">Mayor prestador</a>
+                    </li>
 
                 </ul>        
             </div>

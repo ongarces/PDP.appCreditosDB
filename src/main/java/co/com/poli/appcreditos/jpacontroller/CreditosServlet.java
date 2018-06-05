@@ -6,6 +6,7 @@
 package co.com.poli.appcreditos.jpacontroller;
 
 import co.com.poli.appcreditos.business.impl.CreditoBusinessImpl;
+import co.com.poli.appcreditos.jpacontroller.exceptions.NonexistentEntityException;
 import co.com.poli.appcreditos.model.Credito;
 import co.com.poli.appcreditos.model.Tblcreditos;
 import co.com.poli.appcreditos.util.JPAFactory;
@@ -14,6 +15,8 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -61,17 +64,20 @@ public class CreditosServlet extends HttpServlet {
                 String tipoCredito = request.getParameter("txttipocredito");
                 String vinculado = request.getParameter("txtvinculado");
 
-                tblcreditos = new Tblcreditos(idCredito, documento, nombres, BigInteger.ONE, vinculado, tipoTrabajador, tipoCredito);
+                tblcreditos = new Tblcreditos(idCredito, documento, nombres, montoD, vinculado, tipoTrabajador, tipoCredito);
 
                 sw = cBusinessImpl.creditoExiste(documento, tipoCredito);
 
                 if (sw == true) {
                     String msj = "Hola usted ya tiene un credito de este tipo";
+
                     session.setAttribute("MENSAJE", msj);
                     rd = request.getRequestDispatcher("/mensaje.jsp");
-                } else {
+                } else {//NO CREDITO = AL MISMO DOCUMENTO
                     String mensaje = cBusinessImpl.crearCredito(tblcreditos);
+
                     List<Tblcreditos> listaCreditos = cBusinessImpl.obtenerListaCreditos();
+
                     session.setAttribute("LISTADO", listaCreditos);
                     rd = request.getRequestDispatcher("/view/creditoLista.jsp");
                 }
@@ -82,7 +88,25 @@ public class CreditosServlet extends HttpServlet {
                 session.setAttribute("LISTADO", listaCreditos);
                 rd = request.getRequestDispatcher("/view/creditoLista.jsp");
                 break;
-                
+
+            case "borrar":
+
+                String idCreditoDLT = request.getParameter("txtidcredito");
+                 {
+                    try {
+                        jpaController.destroy(idCreditoDLT);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(CreditosServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                List<Tblcreditos> listaCreditosDLT = cBusinessImpl.obtenerListaCreditos();
+
+                session.setAttribute("LISTADO", listaCreditosDLT);
+
+                rd = request.getRequestDispatcher("/view/creditoLista.jsp");//ir a
+                break;
+
             case "usado":
                 String msjUsado = cBusinessImpl.creditoMasUsado();
                 session.setAttribute("MENSAJE", msjUsado);
@@ -100,7 +124,7 @@ public class CreditosServlet extends HttpServlet {
                 session.setAttribute("MENSAJE", msjPrestador);
                 rd = request.getRequestDispatcher("/mensaje.jsp");
                 break;
-                
+
             default:
                 break;
         }

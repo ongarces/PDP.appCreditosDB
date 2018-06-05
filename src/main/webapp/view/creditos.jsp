@@ -46,6 +46,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=listar">Listar Creditos</a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=usado">Credito mas usado</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=acumulado">Mayor acumulado</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=prestador">Mayor prestador</a>
+                    </li>
 
                 </ul>        
             </div>

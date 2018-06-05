@@ -90,21 +90,19 @@
                         <tbody>
                             <c:forEach var="credito" items="${sessionScope.LISTADO}">
                                 <tr>
-                                    <td><c:out value="${credito.getCredito()}"/></td>
+                                    <td><c:out value="${credito.getIdcredito()}"/></td>
                                     <td><c:out value="${credito.getDocumento()}"/></td>
                                     <td><c:out value="${credito.getNombres()}"/></td>
-                                    <td><c:out value="${credito.getMontoPrestar()}"/></td>
-                                    <td><c:out value="${credito.getTipoTrabajador()}"/></td>
-                                    <td><c:out value="${credito.getTipoCredito()}"/></td>
-                                    <td><c:out value="${credito.isVinculado()}"/></td>
-                                    <!--td>
+                                    <td><c:out value="${credito.getMonto()}"/></td>
+                                    <td><c:out value="${credito.getTipotrabajador()}"/></td>
+                                    <td><c:out value="${credito.getTipocredito()}"/></td>
+                                    <td><c:out value="${credito.getVinculado()}"/></td>
+                                    <td>
                                         <div class="col">
                                             <a class="btn btn-primary" 
-                                               href=".../UsuariosServlet?accion=eliminar&idUser={usuario.getDocumento()}">Eliminar</a>
-                                            <a class="btn btn-primary"
-                                               href=".../UsuariosServlet?accion=modificar&idUser=.$..{usuario.getDocumento()}">Modificar</a>
+                                               href="${pageContext.servletContext.contextPath}/CreditosServlet?accion=borrar&txtidcredito=${credito.getIdcredito()}">Eliminar</a>
                                         </div> 
-                                    </td-->
+                                    </td>
                                 </tr>
                                 
                             </c:forEach>
