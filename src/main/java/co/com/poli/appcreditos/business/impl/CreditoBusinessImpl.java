@@ -65,6 +65,7 @@ public class CreditoBusinessImpl implements ICreditoBusiness {
         Double estudio = 0.0;
         Double inversion = 0.0;
         List<Tblcreditos> listaCreditos = creditoDaoImpl.obtenerListaCreditos();
+        
         for (Tblcreditos listaCredito : listaCreditos) {
             if (listaCredito.getTipocredito().equalsIgnoreCase("vivienda")) {
                 vivienda = vivienda + Double.parseDouble(listaCredito.getMonto().toString());
@@ -113,15 +114,21 @@ public class CreditoBusinessImpl implements ICreditoBusiness {
     }
 
     @Override
-    public Boolean creditoExiste(String documento, String tipoCredito) {
+    public Boolean creditoExiste(String documento, String tipoCredito, String idCredito) {
         Boolean sw = false;
         List<Tblcreditos> listaCreditos = creditoDaoImpl.obtenerListaCreditos();
         for (Tblcreditos listaCredito : listaCreditos) {
+            
+            if (listaCredito.getIdcredito().equals(idCredito)) {
+                return sw=true;
+            }
+            
             if (listaCredito.getDocumento().equals(documento)) {//si existe el documento
                 if (listaCredito.getTipocredito().equals(tipoCredito)) {//si este documento tiene el mismo tipo de credito
                     sw = true;
                 }
             }
+            
         }
         return sw;
     }

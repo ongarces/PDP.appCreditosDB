@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.poli.appcreditos.jpacontroller;
 
 import co.com.poli.appcreditos.business.impl.CreditoBusinessImpl;
@@ -11,7 +6,6 @@ import co.com.poli.appcreditos.model.Credito;
 import co.com.poli.appcreditos.model.Tblcreditos;
 import co.com.poli.appcreditos.util.JPAFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
@@ -59,28 +53,41 @@ public class CreditosServlet extends HttpServlet {
                 String idCredito = request.getParameter("txtidcredito");
                 String documento = request.getParameter("txtdocumento");
                 String nombres = request.getParameter("txtnombres");
-                BigInteger montoD = BigInteger.valueOf((Long.valueOf(request.getParameter("txtmonto"))));
+                BigInteger monto = BigInteger.valueOf((Long.valueOf(request.getParameter("txtmonto"))));
                 String tipoTrabajador = request.getParameter("txttrabajador");
                 String tipoCredito = request.getParameter("txttipocredito");
                 String vinculado = request.getParameter("txtvinculado");
 
-                tblcreditos = new Tblcreditos(idCredito, documento, nombres, montoD, vinculado, tipoTrabajador, tipoCredito);
+                //parsear monto
+                Double montoD = Double.parseDouble(monto.toString());
 
-                sw = cBusinessImpl.creditoExiste(documento, tipoCredito);
+                tblcreditos = new Tblcreditos(idCredito, documento, nombres, monto, vinculado, tipoTrabajador, tipoCredito);
 
-                if (sw == true) {
-                    String msj = "Hola usted ya tiene un credito de este tipo";
+                if (montoD >= 500 && montoD <= 3000) {
 
+                    sw = cBusinessImpl.creditoExiste(documento, tipoCredito, idCredito);
+
+                    if (sw == true) {
+                        String msj = "Hola este credito ya existe";
+
+                        session.setAttribute("MENSAJE", msj);
+                        rd = request.getRequestDispatcher("/mensaje.jsp");
+                        
+                    } else {//NO CREDITO = AL MISMO DOCUMENTO
+                        String mensaje = cBusinessImpl.crearCredito(tblcreditos);
+
+                        List<Tblcreditos> listaCreditos = cBusinessImpl.obtenerListaCreditos();
+
+                        session.setAttribute("LISTADO", listaCreditos);
+                        rd = request.getRequestDispatcher("/view/creditoLista.jsp");
+                    }
+
+                } else {
+                    String msj = "Hola el monto debe ser entre 500 y 3000";
                     session.setAttribute("MENSAJE", msj);
                     rd = request.getRequestDispatcher("/mensaje.jsp");
-                } else {//NO CREDITO = AL MISMO DOCUMENTO
-                    String mensaje = cBusinessImpl.crearCredito(tblcreditos);
-
-                    List<Tblcreditos> listaCreditos = cBusinessImpl.obtenerListaCreditos();
-
-                    session.setAttribute("LISTADO", listaCreditos);
-                    rd = request.getRequestDispatcher("/view/creditoLista.jsp");
                 }
+
                 break;
 
             case "listar":

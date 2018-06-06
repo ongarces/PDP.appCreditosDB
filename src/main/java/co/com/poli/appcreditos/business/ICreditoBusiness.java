@@ -16,7 +16,7 @@ public interface ICreditoBusiness {
 
     Credito obtenerCredito(String numero);
     
-    Boolean creditoExiste(String documento, String tipoCredito);
+    Boolean creditoExiste(String documento, String tipoCredito, String idCredito);
     
     String creditoMasUsado();
     String acumuladoCreditos();
